@@ -1,0 +1,10 @@
+# Binaries
+tmdb-cli
+*.exe
+
+# Env and secrets
+.env
+
+# IDE
+.idea/
+.vscode/
