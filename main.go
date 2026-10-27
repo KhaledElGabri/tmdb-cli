@@ -29,12 +29,22 @@ func ratingLabel(rating float32) (string, error) {
 	return "weak", nil
 }
 
+func runtimeLabel(mins int) string {
+	if mins < 90 {
+		return "short"
+	}
+	if mins >= 90 && mins <= 150 {
+		return "standard"
+	}
+
+	return "long"
+}
+
 func main() {
 
 	title := "Heat"
 	year := 1995
 	rating := float32(8.3)
-
 	fmt.Println(formatMovie(title, year, rating))
 
 	label, err := ratingLabel(rating)
