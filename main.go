@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -12,47 +13,34 @@ func appInfo() string {
 	return fmt.Sprintf("%s v%s", appName, version)
 }
 
-func formatMovie(title string, year int, rating float32) string {
-	return fmt.Sprintf("%s (%d) - rating: %.1f", title, year, rating)
-}
-
-func ratingLabel(rating float32) (string, error) {
-	if rating < 0 || rating > 10 {
-		return "", fmt.Errorf("invalid rating: %.1f", rating)
-	}
-	if rating >= 7.5 {
-		return "great", nil
-	}
-	if rating >= 5 {
-		return "okay", nil
-	}
-	return "weak", nil
-}
-
-func runtimeLabel(mins int) string {
-	if mins < 90 {
-		return "short"
-	}
-	if mins >= 90 && mins <= 150 {
-		return "standard"
-	}
-
-	return "long"
+func printUsage() {
+	fmt.Println("Usage:")
+	fmt.Println("   tmdb popular")
+	fmt.Println("   tmdb search <query>")
 }
 
 func main() {
-
-	title := "Heat"
-	year := 1995
-	rating := float32(8.3)
-	fmt.Println(formatMovie(title, year, rating))
-
-	label, err := ratingLabel(rating)
-	if err != nil {
-		fmt.Println("error:", err)
-		return
+	if len(os.Args) < 2 {
+		printUsage()
+		os.Exit(1)
 	}
-	fmt.Println("verdict:", label)
+
+	command := os.Args[1]
+	switch command {
+	case "popular":
+		fmt.Println("Fetching popular movies... (coming soon)")
+	case "search":
+		if len(os.Args) < 3 {
+			fmt.Println("error: search needs a query")
+			os.Exit(1)
+		}
+		query := os.Args[2]
+		fmt.Println("Searching for:", query)
+	default:
+		fmt.Println("unknown command:", command)
+		printUsage()
+		os.Exit(1)
+	}
 
 	fmt.Println()
 	fmt.Println(strings.Repeat("-", 15))
